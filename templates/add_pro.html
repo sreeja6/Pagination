@@ -1,0 +1,59 @@
+<html>
+<head>
+    <style>
+        #tab
+        {
+            margin-top:10px;
+            height: 200px;
+
+        }
+        .one
+        {
+            font-size: 25px;
+            color: red;
+            background-color: black;
+        }
+         .second
+        {
+            text-align:left;
+            height: 50px;
+            font-size: 30px;
+        }
+    </style>
+</head>
+    <body>
+    <form action ="{% url 'save_prod' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+<table align="center" border="0" id="tab">
+    <tr><th colspan="2" class="one">Add Products</th></tr>
+    {{ form }}
+    <tr><th colspan="2"><button type="submit" class="one">ADD</button> </th></tr>
+</table>
+          </form>
+{% if s %}
+    <table align="center" border="0" width="1000">
+    {% for x in s %}
+        <tr><th rowspan="5"><img src="{{x.photo.url}}" width="150px" height="150px"></th></tr>
+        <tr><th class="second">Name:{{ x.pname }}</th></tr>
+        <tr> <th class="second">Price:{{ x.price }}</th></tr>
+        <tr> <th class="second">Quantity:{{ x.quantity }}</th></tr>
+        <tr><th class="second">-------------------------------</th></tr>
+
+    {% endfor %}
+    {% endif %}
+    </table>
+    <table align="center" border="2">
+    <tr>
+    {% if s.has_previous %}
+        <th><a href="{% url 'main' %}?pno={{ s.previous_page_number }}">Previouus</a></th>
+    {% endif %}
+        {% for x in pr %}
+            <th width="50">{{ x }}</th>
+        {% endfor %}
+    {% if s.has_next %}
+        <th><a href="{% url 'main' %}?pno={{ s.next_page_number }}">Next</a></th>
+    {% endif %}
+    </tr>
+    </table>
+    </body></html>
